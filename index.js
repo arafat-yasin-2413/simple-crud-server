@@ -60,6 +60,14 @@ async function run() {
         })
 
 
+        app.delete('/users/:id', (req, res)=>{
+            // console.log(req.params);
+            
+            const id = req.params.id;
+            console.log('to be deleted : ', id);
+        })
+
+
 
 
 
