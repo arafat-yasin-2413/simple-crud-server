@@ -24,54 +24,65 @@ const client = new MongoClient(uri, {
 	},
 });
 
+// const database = client.db("users");
+// const usersCollection = database.collection("users");
+
 async function run() {
 	try {
 		// const simple_crud_DB = client.db("simple_crud_DB");
 		// const usersCollection = simple_crud_DB.collection("usersCollection");
 
-        // app.get('/',async(req,res)=>{
-        //     const result = await usersCollection.find({}).toArray();
-        //     res.send(result);
-        // })
+		// app.get('/',async(req,res)=>{
+		//     const result = await usersCollection.find({}).toArray();
+		//     res.send(result);
+		// })
 		// Connect the client to the server	(optional starting in v4.7)
 		console.log("try block a dhuksi");
 		await client.connect();
 		console.log("connection done");
 
+		const usersCollection = client.db("usersdb").collection("users");
 
 
-        const database = client.db('users');
-        const usersCollection = database.collection('users')
 
-        // data post korar jonno api create kori
-        app.post('/users', async (req, res)=>{
-            console.log('data in the server: ', req.body);
-            const newUser = req.body;
-            const result = await usersCollection.insertOne(newUser)
+        app.get('/users', async(req, res)=>{
+            const cursor = usersCollection.find();
+            const result = await cursor.toArray();
             res.send(result);
         })
-		
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        // Send a ping to confirm a successful connection
+
+
+
+        app.post('/users', async (req, res)=>{
+            const newUser = req.body;
+            const result = await usersCollection.insertOne(newUser);
+            res.send(result);
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// Send a ping to confirm a successful connection
 		await client.db("admin").command({ ping: 1 });
 		console.log(
 			"Pinged your deployment. You successfully connected to MongoDB!"
@@ -81,11 +92,6 @@ async function run() {
 }
 
 run().catch(console.dir);
-
-
-
-
-
 
 app.get("/", (req, res) => {
 	res.send("simple crud server is running");
